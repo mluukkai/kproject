@@ -10,7 +10,7 @@ spec:
         spec:
           containers:
           - name: wikipedia-container
-            image: PROJECT/CRON_IMAG
+            image: PROJECT/CRON_IMAGE
             env:
             - name: BACKEND_URL
               valueFrom:
