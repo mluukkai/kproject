@@ -22,7 +22,7 @@ app.get('/', async (req, res) => {
   console.log('Getting index')
   const request = await axios.get('http://todo-backend-svc:80/todos');
   const todos = request.data;
-  console.log('got todos...')
+  console.log('got todos...', todos.length)
   res.render('index', { todos });
 });
 
