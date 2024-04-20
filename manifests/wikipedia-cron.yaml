@@ -3,14 +3,14 @@ kind: CronJob
 metadata:
   name: wikipedia-cronjob
 spec:
-  schedule: "0 * * * *"
+  schedule: "*/10 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
           - name: wikipedia-container
-            image: mluukkai/todo-wikipedia:11
+            image: PROJECT/CRON_IMAG
             env:
             - name: BACKEND_URL
               valueFrom:

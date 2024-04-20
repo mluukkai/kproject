@@ -9,6 +9,7 @@ env:
   GKE_ZONE: europe-north1-b
   BE_IMAGE: todo-backend
   APP_IMAGE: todo-app
+  CRON_IMAGE: todo-cron
 
 jobs:
   build-publish-deploy:
@@ -45,11 +46,6 @@ jobs:
           docker build \
             --tag "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./backend
 
-      - name: print images
-        run: |-
-          echo "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
-          echo "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
-
       - name: Publish backend
         run: |-
           docker push "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
@@ -63,6 +59,15 @@ jobs:
         run: |-
           docker push "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
 
+      - name: Build cron
+        run: |-
+          docker build \
+            --tag "gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./cron
+
+      - name: Publish cron
+        run: |-
+          docker push "gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
 
@@ -70,6 +75,7 @@ jobs:
         run: |-
           kustomize edit set image PROJECT/BE_IMAGE=gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image PROJECT/APP_IMAGE=gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize edit set image PROJECT/CRON_IMAGE=gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
           #kubectl rollout status deployment todo-backend-dep
           #kubectl get services -o wide
