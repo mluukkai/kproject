@@ -64,6 +64,7 @@ jobs:
       - name: Deploy
         run: |-
           kustomize edit set image PROJECT/BE_IMAGE=gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize edit set image PROJECT/APP_IMAGE=gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment todo-backend-dep
           kubectl get services -o wide
