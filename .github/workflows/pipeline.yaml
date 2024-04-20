@@ -52,7 +52,7 @@ jobs:
       - name: Build app
         run: |-
           docker build \
-            --tag "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./app
+            --tag "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./front
 
       - name: Publish app
         run: |-
