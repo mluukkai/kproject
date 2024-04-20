@@ -12,7 +12,7 @@ resources:
   - manifests/ingress.yaml
   - manifests/db_deployment.yaml
   - manifests/wikipedia-cron.yaml
-  - manifests/todoConfigMap.yaml
+  - manifests/configMap.yaml
   - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
   - manifests/backend/configmap.yaml
