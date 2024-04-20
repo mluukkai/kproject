@@ -45,6 +45,11 @@ jobs:
           docker build \
             --tag "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./backend
 
+      - name: print images
+        run: |-
+          echo "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          echo "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+
       - name: Publish backend
         run: |-
           docker push "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
