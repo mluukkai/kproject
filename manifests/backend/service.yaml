@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: todo-backend-svc
 spec:
-  type: ClusterIP
+  #type: ClusterIP
+  type: NodePort
   selector:
     app: todo-backend
   ports:

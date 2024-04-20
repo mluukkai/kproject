@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: todo-app-svc
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
+  type: NodePort
   selector:
     app: todo-app
   ports:

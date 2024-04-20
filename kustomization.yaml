@@ -6,7 +6,7 @@ images:
   - name: PROJECT/APP_IMAGE
     newName: mluukkai/todo-app:3
 resources:
-#  - manifests/ingress.yaml
+  - manifests/ingress.yaml
   - manifests/db_deployment.yaml
   - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
