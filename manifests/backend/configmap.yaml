@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: todo-conf
-data:
-  DB_URL: 'postgresql://postgres:postgres@todo-postgres-svc:5432/postgres'
