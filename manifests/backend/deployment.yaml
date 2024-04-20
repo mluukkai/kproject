@@ -19,5 +19,5 @@ spec:
           - name: DB_URL
             valueFrom:
               configMapKeyRef:
-                name: todo-conf
+                name: todo-generic-conf
                 key: DB_URL
