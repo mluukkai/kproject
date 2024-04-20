@@ -11,10 +11,12 @@ images:
 resources:
   - manifests/ingress.yaml
   - manifests/db_deployment.yaml
+  - manifests/wikipedia-cron.yaml
+  - manifests/todoConfigMap.yaml
   - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
   - manifests/backend/configmap.yaml
   - manifests/app/deployment.yaml
   - manifests/app/service.yaml
   - manifests/app/pvc.yaml
-  - manifests/wikipedia-cron.yaml
+
