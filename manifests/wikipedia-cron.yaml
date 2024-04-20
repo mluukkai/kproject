@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wikipedia-cronjob
+  namespace: project
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: wikipedia-container
+            image: mluukkai/todo-wikipedia:11
+            env:
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-generic-conf
+                  key: BACKEND_URL
+          restartPolicy: OnFailure

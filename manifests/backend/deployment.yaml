@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:  
+      containers:
+        - name: todo-backend
+          image: PROJECT/BE_IMAGE
+          env:
+          - name: DB_URL
+            valueFrom:
+              configMapKeyRef:
+                name: todo-conf
+                key: DB_URL
