@@ -8,6 +8,7 @@ env:
   GKE_CLUSTER: dwk-clster
   GKE_ZONE: europe-north1-b
   BE_IMAGE: todo-backend
+  APP_IMAGE: todo-app
 
 jobs:
   build-publish-deploy:
@@ -47,6 +48,16 @@ jobs:
       - name: Publish backend
         run: |-
           docker push "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+
+
+      - name: Build app
+        run: |-
+          docker build \
+            --tag "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./app
+
+      - name: Publish app
+        run: |-
+          docker push "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2

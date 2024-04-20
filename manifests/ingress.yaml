@@ -6,6 +6,13 @@ spec:
   rules:
   - http:
       paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-app-svc
+            port:
+              number: 80        
       - path: /todos
         pathType: Prefix
         backend:
@@ -13,3 +20,7 @@ spec:
             name: todo-backend-svc
             port:
               number: 80
+
+
+
+              

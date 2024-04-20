@@ -3,9 +3,14 @@ kind: Kustomization
 images:
   - name: PROJECT/BE_IMAGE
     newName: mluukkai/the-todo-backend:10
+  - name: PROJECT/APP_IMAGE
+    newName: mluukkai/todo-app:3
 resources:
   - manifests/ingress.yaml
   - manifests/db_deployment.yaml
   - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
   - manifests/backend/configmap.yaml
+  - manifests/backend/deployment.yaml
+  - manifests/backend/service.yaml
+  - manifests/backend/pvc.yaml
