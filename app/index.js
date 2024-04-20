@@ -19,9 +19,10 @@ app.use(express.static('pics'));
 app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
-  const request = await axios.get('http://todo-backend-svc:2345/todos');
-  const todos = request.data;
   console.log('Getting index')
+  const request = await axios.get('http://todo-backend-svc:80/todos');
+  const todos = request.data;
+  console.log('got todos...')
   res.render('index', { todos });
 });
 
