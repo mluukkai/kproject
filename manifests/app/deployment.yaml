@@ -19,6 +19,12 @@ spec:
       containers:
         - name: todo-app
           image: PROJECT/APP_IMAGE
+          env:
+            - name: BACKEND_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-generic-conf
+                  key: BACKEND_URL
           volumeMounts:
             - mountPath: /app/pics
               name: project-data

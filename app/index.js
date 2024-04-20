@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 
 const port = process.env.PORT || 3000;
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000';
 
 const axios = require('axios');
 const fs = require('fs');
@@ -19,8 +20,9 @@ app.use(express.static('pics'));
 app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
-  console.log('Getting index')
-  const request = await axios.get('http://todo-backend-svc:80/todos');
+  console.log('Getting index ', BACKEND_URL);
+  //const request = await axios.get('http://todo-backend-svc:80/todos');
+  const request = await axios.get(BACKEND_URL);
   const todos = request.data;
   console.log('got todos...', todos.length)
   res.render('index', { todos });
