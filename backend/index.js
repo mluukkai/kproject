@@ -52,10 +52,15 @@ app.use(bodyParser.json());
 
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) });
 
-// Use the new format string that includes ':body'
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
+app.get('/', async (req, res) => {
+  console.log('Getting /')
+  res.json({ message: 'nothing here' });
+});
+
 app.get('/todos', async (req, res) => {
+  console.log('Getting /todos')
   const todos = await getTodos()
   res.json(todos);
 });
