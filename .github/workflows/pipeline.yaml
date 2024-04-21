@@ -10,6 +10,7 @@ env:
   BE_IMAGE: todo-backend
   APP_IMAGE: todo-app
   CRON_IMAGE: todo-cron
+  NAMESPACE: ${{ github.ref_name == 'main' && 'default' || github.ref_name }}
 
 jobs:
   build-publish-deploy:
@@ -71,8 +72,17 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
 
+      - name: print namespace
+        run: using namespace $NAMESPACE
+
+      - name: print stuff
+        run: echo -->${GITHUB_REF#refs/heads/}<--
+
       - name: Deploy
-        run: |-
+        run: |-   
+          kubectl create namespace $NAMESPACE || true
+          kubectl config set-context --current --namespace=$NAMESPACE
+          kustomize edit set namespace $NAMESPACE
           kustomize edit set image PROJECT/BE_IMAGE=gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image PROJECT/APP_IMAGE=gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
           kustomize edit set image PROJECT/CRON_IMAGE=gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
