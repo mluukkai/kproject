@@ -79,7 +79,7 @@ jobs:
       - name: print stuff
         run: |- 
           echo "${GITHUB_REF#refs/heads/}"
-          echo "${BRANCH}"
+          echo $BRANCH
 
       - name: Deploy
         run: |-   
