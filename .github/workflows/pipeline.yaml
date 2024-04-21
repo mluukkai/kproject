@@ -11,6 +11,7 @@ env:
   APP_IMAGE: todo-app
   CRON_IMAGE: todo-cron
   NAMESPACE: ${{ github.ref_name == 'main' && 'default' || github.ref_name }}
+  BRANCH: ${{ github.ref_name }}
 
 jobs:
   build-publish-deploy:
@@ -76,7 +77,9 @@ jobs:
         run: echo using namespace $NAMESPACE
 
       - name: print stuff
-        run: echo "${GITHUB_REF#refs/heads/}"
+        run: |- 
+          echo "${GITHUB_REF#refs/heads/}"
+          echo "${BRANCH}"
 
       - name: Deploy
         run: |-   
