@@ -80,6 +80,8 @@ jobs:
         run: |- 
           echo "${GITHUB_REF#refs/heads/}"
           echo $BRANCH
+          echo "gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          echo "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA"
 
       - name: Deploy
         run: |-   
