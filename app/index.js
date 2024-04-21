@@ -21,7 +21,6 @@ app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
   console.log('Getting index ', BACKEND_URL);
-  //const request = await axios.get('http://todo-backend-svc:80/todos');
   const request = await axios.get(BACKEND_URL);
   const todos = request.data;
   console.log('got todos...', todos.length)
