@@ -43,54 +43,32 @@ jobs:
 
       - run: kubectl version
 
-      - name: Build backend
+      - name: Build and publish backend
         run: |-
-          docker build \
-            --tag "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./backend
+          docker build --tag "gcr.io/$PROJECT_ID/$BE_IMAGE:$BRANCH-$GITHUB_SHA" ./backend
+          docker push "gcr.io/$PROJECT_ID/$BE_IMAGE:$BRANCH-$GITHUB_SHA"
 
-      - name: Publish backend
+      - name: Build and publish app
         run: |-
-          docker push "gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          docker build --tag "gcr.io/$PROJECT_ID/$APP_IMAGE:$BRANCH-$GITHUB_SHA" ./app
+          docker push "gcr.io/$PROJECT_ID/$APP_IMAGE:$BRANCH-$GITHUB_SHA"
 
-      - name: Build app
+      - name: Build and publish cron
         run: |-
-          docker build \
-            --tag "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./app
-
-      - name: Publish app
-        run: |-
-          docker push "gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
-
-      - name: Build cron
-        run: |-
-          docker build \
-            --tag "gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" ./cron
-
-      - name: Publish cron
-        run: |-
-          docker push "gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
+          docker build --tag "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA" ./cron
+          docker push "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA"
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
-
-      - name: print namespace
-        run: echo using namespace $NAMESPACE
-
-      - name: print stuff
-        run: |- 
-          echo "${GITHUB_REF#refs/heads/}"
-          echo $BRANCH
-          echo "gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA"
-          echo "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA"
 
       - name: Deploy
         run: |-   
           kubectl create namespace $NAMESPACE || true
           kubectl config set-context --current --namespace=$NAMESPACE
           kustomize edit set namespace $NAMESPACE
-          kustomize edit set image PROJECT/BE_IMAGE=gcr.io/$PROJECT_ID/$BE_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
-          kustomize edit set image PROJECT/APP_IMAGE=gcr.io/$PROJECT_ID/$APP_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
-          kustomize edit set image PROJECT/CRON_IMAGE=gcr.io/$PROJECT_ID/$CRON_IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA
+          kustomize edit set image PROJECT/BE_IMAGE=gcr.io/$PROJECT_ID/$BE_IMAGE:$BRANCH-$GITHUB_SHA
+          kustomize edit set image PROJECT/APP_IMAGE=gcr.io/$PROJECT_ID/$APP_IMAGE:$BRANCH-$GITHUB_SHA
+          kustomize edit set image PROJECT/CRON_IMAGE=gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment todo-backend-dep todo-app-dep
           kubectl get services -o wide
