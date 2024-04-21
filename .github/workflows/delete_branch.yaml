@@ -44,4 +44,7 @@ jobs:
         run: |-
           kustomize edit set namespace $NAMESPACE
           kustomize build . | kubectl delete -f -
+      
+      - name: Delete namespace
+        run: |-      
           kubectl delete namespace $NAMESPACE
