@@ -7,11 +7,15 @@ images:
     newName: mluukkai/todo-app:3
   - name: PROJECT/CRON_IMAGE
     newName: mluukkai/todo-wikipedia:11
+  - name: PROJECT/BACKUP_IMAGE
+    newName: mluukkai/backup:10
+
 
 resources:
   - manifests/ingress.yaml
   - manifests/db_deployment.yaml
   - manifests/wikipedia-cron.yaml
+  - manifests/bu-cron.yaml
   - manifests/configMap.yaml
   - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml

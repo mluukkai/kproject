@@ -53,10 +53,16 @@ jobs:
           docker build --tag "gcr.io/$PROJECT_ID/$APP_IMAGE:$BRANCH-$GITHUB_SHA" ./app
           docker push "gcr.io/$PROJECT_ID/$APP_IMAGE:$BRANCH-$GITHUB_SHA"
 
-      - name: Build and publish cron
+      - name: Build and publish wikipedia cron
         run: |-
           docker build --tag "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA" ./cron
           docker push "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA"
+
+      - name: Build and publish backup cron
+        run: |-
+          docker build --tag "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA" ./backup
+          docker push "gcr.io/$PROJECT_ID/$BACKUP_IMAGE:$BRANCH-$GITHUB_SHA"
+
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2
@@ -69,6 +75,7 @@ jobs:
           kustomize edit set image PROJECT/BE_IMAGE=gcr.io/$PROJECT_ID/$BE_IMAGE:$BRANCH-$GITHUB_SHA
           kustomize edit set image PROJECT/APP_IMAGE=gcr.io/$PROJECT_ID/$APP_IMAGE:$BRANCH-$GITHUB_SHA
           kustomize edit set image PROJECT/CRON_IMAGE=gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA
+          kustomize edit set image PROJECT/BACKUP_IMAGE=gcr.io/$PROJECT_ID/$BACKUP_IMAGE:$BRANCH-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment todo-backend-dep todo-app-dep
           kubectl get services -o wide

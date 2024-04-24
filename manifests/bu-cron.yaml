@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: backup-cronjob
+spec:
+  schedule: "*/10 * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: secret-volume
+            secret:
+              secretName: key-secret  
+          containers:
+          - name: backup
+            image: PROJECT/BACKUP_IMAGE
+            env:
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: todo-generic-conf
+                  key: DB_URL
+            volumeMounts:
+              - name: secret-volume
+                readOnly: true
+                mountPath: "/etc/secrets"
+            restartPolicy: Never
