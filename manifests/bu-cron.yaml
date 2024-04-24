@@ -13,7 +13,7 @@ spec:
           volumes:
           - name: secret-volume
             secret:
-              secretName: key-secret  
+              secretName: key-secret
           containers:
           - name: backup
             image: PROJECT/BACKUP_IMAGE
@@ -27,4 +27,4 @@ spec:
               - name: secret-volume
                 readOnly: true
                 mountPath: "/etc/secrets"
-            restartPolicy: Never
+          restartPolicy: Never

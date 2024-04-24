@@ -22,4 +22,3 @@ resources:
   - manifests/app/deployment.yaml
   - manifests/app/service.yaml
   - manifests/app/pvc.yaml
-
