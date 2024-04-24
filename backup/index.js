@@ -13,9 +13,9 @@ const filePath = '/usr/src/app/backup.sql';
 
 const currentDate = new Date(); 
 const formattedDate = currentDate.toISOString().split('T')[0]; 
-// const rnd = Math.floor(Math.random() * 1001);
+const rnd = Math.floor(Math.random() * 1001);
 
-const destFileName = `backup-${formattedDate}.sql`
+const destFileName = `backup-${formattedDate}-${rnd}.sql`
 
 async function createBucket() {
   const [ exists ] =  await storage.bucket(bucketName).exists()
