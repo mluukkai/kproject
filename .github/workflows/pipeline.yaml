@@ -61,7 +61,7 @@ jobs:
 
       - name: Build and publish backup cron
         run: |-
-          docker build --tag "gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA" ./backup
+          docker build --tag "gcr.io/$PROJECT_ID/$BACKUP_IMAGE:$BRANCH-$GITHUB_SHA" ./backup
           docker push "gcr.io/$PROJECT_ID/$BACKUP_IMAGE:$BRANCH-$GITHUB_SHA"
 
       - name: Set up Kustomize
