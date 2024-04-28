@@ -82,8 +82,15 @@ app.get('/healthz', async (req, res) => {
 
   const skript = shell.exec('./health.sh')
   console.log(('output:', skript.stdout))
-  console.log('skript check result:', skript.code)
+  const code = skript.code
+  console.log('skript check result:', code)
+  const status = code === 0 ? 200 : 500
 
+  console.log('status ', status);
+
+  res.status(status).send({ data: code === 0 ? 'OK' : 'NOT OK'});
+
+  /*
   try {
     console.log('Checking health ', BACKEND_URL);
     const request = await axios.get(BACKEND_URL);
@@ -93,6 +100,7 @@ app.get('/healthz', async (req, res) => {
     console.error('Error checking health :(');
     res.status(500).send('NOT OK');
   }
+  */
 });
 
 function gracefulShutdown() {
