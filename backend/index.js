@@ -26,7 +26,7 @@ const isDbConnection = async () => {
     const result = await client.query('SELECT NOW()')
     return true
   } catch (e) {
-    console.log('DB FAILED TO CONNECT')
+    console.log('HEALTH DB FAILED TO CONNECT')
     return false
   }
 }
@@ -113,9 +113,15 @@ app.get('/healthz', async (req, res) => {
   }
 
   const dbConnection = await isDbConnection()
-  console.log('health HAZZ DB', dbConnection)
+  console.log('HEALTH has db', dbConnection)
 
-  res.send('OK');
+  
+  if (dbConnection) {
+    res.send('OK');
+  } else {
+    broken = true;
+    res.status(500).send('NOT OK');
+  }
 });
 
 app.get('/disq', async (req, res) => {
