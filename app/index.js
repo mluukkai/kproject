@@ -79,9 +79,15 @@ app.get('/healthz', async (req, res) => {
     return res.status(500).send('NOT OK');
   }
 
-  const request = await axios.get(BACKEND_URL);
-  const status = request.status
-  res.status(status).send({ data: status<400 ? 'OK' : 'NOT OK'});
+  try {
+    console.log('Checking health ', BACKEND_URL);
+    const request = await axios.get(BACKEND_URL);
+    const status = request.status
+    res.status(status).send({ data: status<400 ? 'OK' : 'NOT OK'});
+  } catch (error) {
+    console.error('Error checking health :(');
+    res.status(500).send('NOT OK');
+  }
 });
 
 function gracefulShutdown() {
