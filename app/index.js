@@ -73,12 +73,15 @@ app.get('/picture.jpg', async (req, res) => {
 
 let broken = false;
 
-app.get('/healthz', (req, res) => {
+
+app.get('/healthz', isBroken, async (req, res) => {
   if (broken) {
     return res.status(500).send('NOT OK');
   }
 
-  res.send('OK');
+  const request = await axios.get(BACKEND_URL);
+  const status = request.status
+  res.status(status).send({ data: status<400 ? 'OK' : 'NOT OK'});
 });
 
 function gracefulShutdown() {
