@@ -24,7 +24,6 @@ const getTodos = async () => {
 const isDbConnection = async () => {
   try {
     const result = await client.query('SELECT NOW()')
-    console.log(result.rows)
     return true
   } catch (e) {
     console.log('DB FAILED TO CONNECT')
