@@ -102,6 +102,21 @@ app.get('/healthz', async (req, res) => {
   */
 });
 
+app.get('/health-live', async (req, res) => {
+  console.log('HZ LIVE Checking health')
+  if (broken) {
+    console.log('HZ LIVE broken...')
+    return res.status(500).send('NOT OK');
+  }
+
+  const skript = shell.exec('./health.sh')
+  const code = skript.code
+  const status = code === 0 ? 200 : 500
+  console.log('HZ LIVE skript check result:', code, 'status:', status)
+
+  res.status(status).send({ data: code === 0 ? 'OK' : 'NOT OK'});
+});
+
 function gracefulShutdown() {
   console.log('Shutting down gracefully in 3 seconds...');
   broken = true;
