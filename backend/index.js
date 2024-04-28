@@ -16,8 +16,21 @@ const client = new Client({
 })
 
 const getTodos = async () => {
+  await client.connect()
   const res = await client.query('SELECT * FROM todos')
   return res.rows
+}
+
+const isDbConnection = async () => {
+  try {
+    await client.connect()
+    const result = await client.query('SELECT NOW()')
+    console.log(result.rows)
+    return true
+  } catch (e) {
+    console.log('DB FAILED TO CONNECT')
+    return false
+  }
 }
 
 const connectDb = async () => {
@@ -98,10 +111,13 @@ app.post('/todos', async (req, res) => {
 
 let broken = false;
 
-app.get('/healthz', (req, res) => {
+app.get('/healthz', async (req, res) => {
   if (broken) {
     return res.status(500).send('NOT OK');
   }
+
+  const dbConnection = await isDbConnection()
+  console.log('isDb', dbConnection)
 
   res.send('OK');
 });
@@ -114,6 +130,9 @@ function gracefulShutdown() {
     process.exit(0);
   }, 3000);
 }
+
+process.on('SIGTERM', gracefulShutdown);
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
