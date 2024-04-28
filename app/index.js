@@ -80,8 +80,9 @@ app.get('/healthz', async (req, res) => {
     return res.status(500).send('NOT OK');
   }
 
-  const res = shell.exec('./health.sh')
-  console.log('Health check result:', res.code)
+  const skript = shell.exec('./health.sh')
+  console.log(('output:', skript.stdout))
+  console.log('skript check result:', skript.code)
 
   try {
     console.log('Checking health ', BACKEND_URL);
