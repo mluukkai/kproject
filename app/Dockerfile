@@ -2,6 +2,8 @@ FROM node:20
 
 WORKDIR /app
 
+RUN apt-get -y update; apt-get -y install curl
+
 COPY package*.json ./
 
 RUN npm install

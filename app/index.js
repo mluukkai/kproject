@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express();
 
+let shell = require('shelljs');
+
 const port = process.env.PORT || 3000;
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000';
 
@@ -73,11 +75,13 @@ app.get('/picture.jpg', async (req, res) => {
 
 let broken = false;
 
-
 app.get('/healthz', async (req, res) => {
   if (broken) {
     return res.status(500).send('NOT OK');
   }
+
+  const res = shell.exec('./health.sh')
+  console.log('Health check result:', res.code)
 
   try {
     console.log('Checking health ', BACKEND_URL);
