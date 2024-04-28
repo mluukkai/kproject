@@ -16,6 +16,7 @@ const client = new Client({
 })
 
 const getTodos = async () => {
+  console.log('getting todos from db')
   const res = await client.query('SELECT * FROM todos')
   return res.rows
 }
