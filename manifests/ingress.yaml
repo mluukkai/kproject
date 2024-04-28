@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: todo-app-ingress
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
