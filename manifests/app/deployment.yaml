@@ -43,6 +43,7 @@ spec:
               port: 3000
             initialDelaySeconds: 1
             periodSeconds: 5
+            timeoutSeconds: 15
           livenessProbe:
             httpGet:
               path: /health-live
@@ -50,3 +51,4 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
             failureThreshold: 2
+            timeoutSeconds: 15
