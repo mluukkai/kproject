@@ -16,7 +16,6 @@ const client = new Client({
 })
 
 const getTodos = async () => {
-  await client.connect()
   const res = await client.query('SELECT * FROM todos')
   return res.rows
 }
@@ -79,8 +78,6 @@ app.get('/todos', async (req, res) => {
 });
 
 app.post('/todos', async (req, res) => {
-  console.log(req.body);
-  console.log(req.headers['content-type'])
   const title = req.body.todo;
 
   if (!title) {
