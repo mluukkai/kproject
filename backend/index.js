@@ -23,7 +23,6 @@ const getTodos = async () => {
 
 const isDbConnection = async () => {
   try {
-    await client.connect()
     const result = await client.query('SELECT NOW()')
     console.log(result.rows)
     return true
@@ -115,10 +114,15 @@ app.get('/healthz', async (req, res) => {
   }
 
   const dbConnection = await isDbConnection()
-  console.log('isDb', dbConnection)
+  console.log('health HAZZ DB', dbConnection)
 
   res.send('OK');
 });
+
+app.get('/disq', async (req, res) => {
+  await client.end()
+  console.log('db client has disconnected')
+})
 
 function gracefulShutdown() {
   console.log('Shutting down gracefully in 3 seconds...');
