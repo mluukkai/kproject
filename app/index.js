@@ -81,7 +81,7 @@ app.get('/healthz', async (req, res) => {
   }
 
   const skript = shell.exec('./health.sh')
-  console.log(('output:', skript.stdout))
+  console.log('output:', skript.stdout)
   const code = skript.code
   console.log('skript check result:', code)
   const status = code === 0 ? 200 : 500
