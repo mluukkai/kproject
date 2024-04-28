@@ -74,7 +74,7 @@ app.get('/picture.jpg', async (req, res) => {
 let broken = false;
 
 
-app.get('/healthz', isBroken, async (req, res) => {
+app.get('/healthz', async (req, res) => {
   if (broken) {
     return res.status(500).send('NOT OK');
   }
