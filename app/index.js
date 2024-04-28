@@ -71,6 +71,27 @@ app.get('/picture.jpg', async (req, res) => {
   res.sendFile(__dirname + '/' + FILE);
 });
 
+let broken = false;
+
+app.get('/healthz', (req, res) => {
+  if (broken) {
+    return res.status(500).send('NOT OK');
+  }
+
+  res.send('OK');
+});
+
+function gracefulShutdown() {
+  console.log('Shutting down gracefully in 3 seconds...');
+  broken = true;
+  setTimeout(() => {
+    console.log('Shutting down NOW...');
+    process.exit(0);
+  }, 3000);
+}
+
+process.on('SIGTERM', gracefulShutdown);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

@@ -96,10 +96,24 @@ app.post('/todos', async (req, res) => {
   }
 });
 
+let broken = false;
+
 app.get('/healthz', (req, res) => {
+  if (broken) {
+    return res.status(500).send('NOT OK');
+  }
+
   res.send('OK');
 });
 
+function gracefulShutdown() {
+  console.log('Shutting down gracefully in 3 seconds...');
+  broken = true;
+  setTimeout(() => {
+    console.log('Shutting down NOW...');
+    process.exit(0);
+  }, 3000);
+}
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
