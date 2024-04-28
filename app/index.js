@@ -12,6 +12,8 @@ const fs = require('fs');
 
 app.set('view engine', 'ejs');
 
+console.log('starting...');
+
 async function downloadImage(url, filename) {
   const response = await axios.get(url, { responseType: 'arraybuffer' });
   fs.writeFileSync(filename, response.data);
