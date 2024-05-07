@@ -115,7 +115,6 @@ app.get('/healthz', async (req, res) => {
   const dbConnection = await isDbConnection()
   console.log('HEALTH has db', dbConnection)
 
-  
   if (dbConnection) {
     res.send('OK');
   } else {
@@ -125,7 +124,7 @@ app.get('/healthz', async (req, res) => {
 });
 
 app.get('/fibo', async (req, res) => {
-  const n = req.query.id ? Number(req.query.id) : 15;
+  const n = req.query.n ? Number(req.query.n) : 15;
   console.log('counting fibo for', n);
   const fib = (n) => {
     if (n < 2) {

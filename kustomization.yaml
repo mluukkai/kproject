@@ -17,8 +17,13 @@ resources:
   - manifests/wikipedia-cron.yaml
   - manifests/bu-cron.yaml
   - manifests/configMap.yaml
-  - manifests/backend/deployment.yaml
+  
+
+  - manifests/backend/analysistemplate.yaml
+  - manifests/backend/rollout.yaml  
+  #- manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
+
   - manifests/app/deployment.yaml
   - manifests/app/service.yaml
   - manifests/app/pvc.yaml
