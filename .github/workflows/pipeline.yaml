@@ -77,5 +77,13 @@ jobs:
           kustomize edit set image PROJECT/CRON_IMAGE=gcr.io/$PROJECT_ID/$CRON_IMAGE:$BRANCH-$GITHUB_SHA
           kustomize edit set image PROJECT/BACKUP_IMAGE=gcr.io/$PROJECT_ID/$BACKUP_IMAGE:$BRANCH-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment todo-backend-dep todo-app-dep
+          kubectl rollout status deployment todo-app-dep
           kubectl get services -o wide
+
+      - name: arco
+        run: |
+          curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+          chmod +x ./kubectl-argo-rollouts-linux-amd64
+          sudo mv ./kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+          kubectl argo rollouts version
+          kubectl argo rollouts status todo-backend-dep
