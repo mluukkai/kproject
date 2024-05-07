@@ -124,9 +124,26 @@ app.get('/healthz', async (req, res) => {
   }
 });
 
+app.get('/fibo', async (req, res) => {
+  const n = req.query.id ? Number(req.query.id) : 15;
+  console.log('counting fibo for', n);
+  const fib = (n) => {
+    if (n < 2) {
+        return n;
+    }
+    return fib(n - 1) + fib(n - 2);
+  }
+  
+  const result = fib(n)
+  
+  console.log(result)
+  res.send({ result });
+})
+
 app.get('/disq', async (req, res) => {
   await client.end()
   console.log('db client has disconnected')
+  res.send('disconnected')
 })
 
 function gracefulShutdown() {
@@ -143,3 +160,5 @@ process.on('SIGTERM', gracefulShutdown);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// sum(rate(container_cpu_usage_seconds_total{namespace="default"}[10m]))
