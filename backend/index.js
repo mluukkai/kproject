@@ -107,6 +107,25 @@ app.post('/todos', async (req, res) => {
 
 let broken = false;
 
+app.post('/todos/:id/done', async (req, res) => {
+  const { id } = req.params;
+
+  const updateTodoQuery = `
+    UPDATE todos
+    SET done = true
+    WHERE id = $1
+    RETURNING id, title, done;
+  `;
+
+  try {
+    const addedTodo = await client.query(updateTodoQuery, [id]);
+    res.redirect('/');
+  } catch (error) {
+    console.error(error);
+    res.redirect('/');
+  }
+});
+
 app.get('/healthz', async (req, res) => {
   if (broken) {
     return res.status(500).send('NOT OK');

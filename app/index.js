@@ -88,18 +88,6 @@ app.get('/healthz', async (req, res) => {
   console.log('skript check result:', code, 'status:', status)
 
   res.status(status).send({ data: code === 0 ? 'OK' : 'NOT OK'});
-
-  /*
-  try {
-    console.log('Checking health ', BACKEND_URL);
-    const request = await axios.get(BACKEND_URL);
-    const status = request.status
-    res.status(status).send({ data: status<400 ? 'OK' : 'NOT OK'});
-  } catch (error) {
-    console.error('Error checking health :(');
-    res.status(500).send('NOT OK');
-  }
-  */
 });
 
 app.get('/health-live', async (req, res) => {
