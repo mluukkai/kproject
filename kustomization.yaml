@@ -21,7 +21,7 @@ resources:
 
   - manifests/backend/analysistemplate.yaml
   - manifests/backend/rollout.yaml  
-  #- manifests/backend/deployment.yaml
+  # - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
 
   - manifests/app/deployment.yaml
