@@ -8,15 +8,14 @@ const webhook_url = process.env.DISCORD_WEBHOOK;
 console.log('webhook', webhook_url);
 const hook = new Webhook(webhook_url);
 hook.setUsername('broadcaster');
+const IMAGE_URL = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
 hook.setAvatar(IMAGE_URL); 
 
 app.get('/', async (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/chat', async (req, res) => {
-  const IMAGE_URL = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
- 
+app.get('/chat', async (req, res) => { 
   hook.send("Hello there!");
   res.send('sent message to discord!')
 })
