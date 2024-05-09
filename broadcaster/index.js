@@ -1,19 +1,22 @@
 const { Webhook } = require('discord-webhook-node');
 const NATS = require('nats')
 
-const nc = NATS.connect({
-  url: process.env.NATS_URL || 'nats://nats:4222'
-})
 
-console.log('NATS url',process.env.NATS_URL)
-
-nc.subscribe('todo_info', { queue: 'todo.broadcasters' }, (msg) => {
-  const payload = JSON.parse(msg)
-  const { title, status } = payload
-  console.log(`${title}: ${status}`)
-
-  hook.send("A message from the broadcaster! " + msg);
-})
+const f = async () => { 
+  const nc = await NATS.connect({
+    url: process.env.NATS_URL || 'nats://nats:4222'
+  })
+  
+  console.log('NATS url', process.env.NATS_URL)
+  
+  nc.subscribe('todo_info', { queue: 'todo.broadcasters' }, (msg) => {
+    const payload = JSON.parse(msg)
+    const { title, status } = payload
+    console.log(`${title}: ${status}`)
+  
+    hook.send("A message from the broadcaster! " + msg);
+  })
+}
 
 const express = require('express');
 const app = express();
