@@ -1,4 +1,5 @@
 const NATS = require('nats')
+const sc = NATS.StringCodec();
 
 console.log('NATS url', process.env.NATS_URL)
 
