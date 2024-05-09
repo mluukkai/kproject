@@ -146,8 +146,11 @@ app.post('/todos/:id/done', async (req, res) => {
     )
     console.log(`connected to ${nc.getServer()}`);
 
+    const res = await client.query('SELECT * FROM todos WHERE id = $1', [id]);
+    const todo = res.rows[0];
+
     const payload = {
-      title: 'a todo',
+      title: todo.title,
       status: 'done'
     }
 
