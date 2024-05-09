@@ -2,37 +2,6 @@ const { Webhook } = require('discord-webhook-node');
 const NATS = require('nats')
 const sc = NATS.StringCodec();
 
-const main = async () => {
-  const nc = await NATS.connect({
-    url: process.env.NATS_URL
-  })
-  
-  console.log(`connected to ${nc.getServer()}`);
-
-  const subscription = nc.subscribe("todo_info");
-  
-  for await (const m of subscription) {
-    const obj = JSON.parse(sc.decode(m.data))
-    console.log(obj)
-
-    console.log(`${obj.status} todo '${obj.title}'`)
-
-    hook.send(`${obj.status} todo '${obj.title}'`)
-  }
-}
-
-main()
-
-const f = async () => { 
-  nc.subscribe('todo_info', { queue: 'todo.broadcasters' }, (msg) => {
-    const payload = JSON.parse(msg)
-    const { title, status } = payload
-    console.log(`${title}: ${status}`)
-  
-    hook.send("A message from the broadcaster! " + msg);
-  })
-}
-
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -58,3 +27,25 @@ app.listen(PORT, () => {
 });
 
 console.log('Saver listening')
+
+const main = async () => {
+  console.log('using', process.env.NATS_URL)
+  const nc = await NATS.connect({
+    url: process.env.NATS_URL
+  })
+  
+  console.log(`connected to ${nc.getServer()}`);
+
+  const subscription = nc.subscribe("todo_info");
+  
+  for await (const m of subscription) {
+    const obj = JSON.parse(sc.decode(m.data))
+    console.log(obj)
+
+    console.log(`${obj.status} todo '${obj.title}'`)
+
+    hook.send(`${obj.status} todo '${obj.title}'`)
+  }
+}
+
+main()
