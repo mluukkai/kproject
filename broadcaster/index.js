@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 const webhook_url = process.env.DISCORD_WEBHOOK;
 console.log('webhook', webhook_url);
 const hook = new Webhook(webhook_url);
-hook.setUsername('broadcaster');
+hook.setUsername('devopswithkubernetes.com');
 const IMAGE_URL = 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png';
 hook.setAvatar(IMAGE_URL); 
 
@@ -36,7 +36,7 @@ const main = async () => {
   
   console.log(`connected to ${nc.getServer()}`);
 
-  const subscription = nc.subscribe("todo_info");
+  const subscription = nc.subscribe("todo_info", { queue: "broadcaster" });
   
   for await (const m of subscription) {
     const obj = JSON.parse(sc.decode(m.data))

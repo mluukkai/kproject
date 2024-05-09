@@ -147,9 +147,11 @@ app.post('/todos/:id/done', async (req, res) => {
     console.log(`connected to ${nc.getServer()}`);
 
     const payload = {
-      title,
+      title: 'a todo',
       status: 'done'
     }
+
+    console.log(payload)
 
     nc.publish("todo_info", sc.encode(JSON.stringify(payload)));
 
