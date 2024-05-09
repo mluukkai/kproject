@@ -16,11 +16,11 @@ spec:
         - name: todo-broadcaster
           image: PROJECT/BRDC_IMAGE
           env:
-          - name: DB_URL
+          - name: NATS_URL
             valueFrom:
               configMapKeyRef:
                 name: todo-generic-conf
-                key: DB_URL
+                key: NATS_URL
           - name: DISCORD_WEBHOOK
             valueFrom:
               secretKeyRef:

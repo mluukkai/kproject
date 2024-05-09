@@ -5,3 +5,4 @@ metadata:
 data:
   DB_URL: 'postgresql://postgres:postgres@todo-postgres-svc:5432/postgres'
   BACKEND_URL: 'http://todo-backend-svc:80/todos'
+  NATS_URL: nats://my-nats:4222

@@ -21,6 +21,11 @@ spec:
               configMapKeyRef:
                 name: todo-generic-conf
                 key: DB_URL
+          - name: NATS_URL
+            valueFrom:
+              configMapKeyRef:
+                name: todo-generic-conf
+                key: NATS_URL
           resources:
             limits:
               cpu: "150m"
