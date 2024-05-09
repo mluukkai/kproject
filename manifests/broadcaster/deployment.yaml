@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-broadcaster-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-broadcaster
+  template:
+    metadata:
+      labels:
+        app: todo-broadcaster
+    spec:  
+      containers:
+        - name: todo-broadcaster
+          image: PROJECT/BRDC_IMAGE
+          env:
+          - name: DB_URL
+            valueFrom:
+              configMapKeyRef:
+                name: todo-generic-conf
+                key: DB_URL
+          - name: DISCORD_WEBHOOK
+            valueFrom:
+              secretKeyRef:
+                name: key-secret
+                key: discord_hook
+          resources:
+            limits:
+              cpu: "150m"
+              memory: "500Mi"
+            requests:
+              cpu: "015m"
+              memory: "100Mi"   

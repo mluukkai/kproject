@@ -9,7 +9,8 @@ images:
     newName: mluukkai/todo-wikipedia:11
   - name: PROJECT/BACKUP_IMAGE
     newName: mluukkai/backup:10
-
+  - name: PROJECT/BRDC_IMAGE
+    newName: mluukkai/broadcaster:1
 
 resources:
   - manifests/ingress.yaml
@@ -18,12 +19,15 @@ resources:
   - manifests/bu-cron.yaml
   - manifests/configMap.yaml
   
-
-  - manifests/backend/analysistemplate.yaml
-  - manifests/backend/rollout.yaml  
-  # - manifests/backend/deployment.yaml
+# - manifests/backend/analysistemplate.yaml
+# - manifests/backend/rollout.yaml  
+  - manifests/backend/deployment.yaml
   - manifests/backend/service.yaml
+
+  - manifests/broadcaster/deployment.yaml
 
   - manifests/app/deployment.yaml
   - manifests/app/service.yaml
   - manifests/app/pvc.yaml
+
+
