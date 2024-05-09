@@ -9,6 +9,7 @@ env:
   GKE_ZONE: europe-north1-b
   BE_IMAGE: todo-backend
   APP_IMAGE: todo-app
+  BRDC_IMAGE: todo-broadcaster
   CRON_IMAGE: todo-cron
   BACKUP_IMAGE: backup-cron
   NAMESPACE: ${{ github.ref_name == 'main' && 'default' || github.ref_name }}
@@ -58,7 +59,6 @@ jobs:
         run: |-
           docker build --tag "gcr.io/$PROJECT_ID/$BRDC_IMAGE:$BRANCH-$GITHUB_SHA" ./broadcaster
           docker push "gcr.io/$PROJECT_ID/$BRDC_IMAGE:$BRANCH-$GITHUB_SHA"
-
 
       - name: Build and publish wikipedia cron
         run: |-

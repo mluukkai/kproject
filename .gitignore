@@ -1,3 +1,5 @@
 manifests/secret.yaml
 app/node_modules/
+backend/node_modules/
+broadcaster/node_modules/
 app/pics/
