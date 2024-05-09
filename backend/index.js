@@ -2,10 +2,6 @@ const NATS = require('nats')
 
 console.log('NATS url', process.env.NATS_URL)
 
-const nc = NATS.connect({
-  url: process.env.NATS_URL
-})
-
 const express = require('express');
 
 const app = express();
@@ -102,12 +98,20 @@ app.post('/todos', async (req, res) => {
   try {
     const addedTodo = await client.query(insertTodoQuery, [title, false]);
 
+    const nc = await NATS.connect(
+      { servers: process.env.NATS_URL}
+    )
+    console.log(`connected to ${nc.getServer()}`);
+
     const payload = {
       title,
       status: 'created'
     }
 
-    nc.publish('todo_info', JSON.stringify(payload))
+    nc.publish("todo_info", sc.encode(JSON.stringify(payload)));
+
+    await nc.drain();
+    await nc.close();
 
     if (req.headers['content-type'] === 'application/json') {
       res.send(addedTodo);
@@ -135,12 +139,22 @@ app.post('/todos/:id/done', async (req, res) => {
 
   try {
     await client.query(updateTodoQuery, [id]);
+
+    const nc = await NATS.connect(
+      { servers: process.env.NATS_URL}
+    )
+    console.log(`connected to ${nc.getServer()}`);
+
     const payload = {
-      title: id,
+      title,
       status: 'done'
     }
 
-    nc.publish('todo_info', JSON.stringify(payload))
+    nc.publish("todo_info", sc.encode(JSON.stringify(payload)));
+
+    await nc.drain();
+    await nc.close();
+
     res.redirect('/');
   } catch (error) {
     console.error(error);
