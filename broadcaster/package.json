@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord-webhook-node": "^1.1.8",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "nats": "^2.24.0"
   }
 }

@@ -1,4 +1,8 @@
 const { Webhook } = require('discord-webhook-node');
+const NATS = require('nats')
+const nc = NATS.connect({
+  url: process.env.NATS_URL || 'nats://nats:4222'
+})
 
 const express = require('express');
 const app = express();
@@ -23,3 +27,13 @@ app.get('/chat', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+nc.subscribe('todo_info', { queue: 'todo.broadcasters' }, (msg) => {
+  const payload = JSON.parse(msg)
+  const { title, status } = payload
+  console.log(`${title}: ${status}`)
+
+  hook.send("A message from the broadcaster! " + msg);
+})
+
+console.log('Saver listening')
