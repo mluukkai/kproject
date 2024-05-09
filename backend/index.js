@@ -3,6 +3,8 @@ const nc = NATS.connect({
   url: process.env.NATS_URL || 'nats://nats:4222'
 })
 
+console.log('NATS url',process.env.NATS_URL)
+
 const express = require('express');
 
 const app = express();

@@ -5,6 +5,8 @@ const nc = NATS.connect({
   url: process.env.NATS_URL || 'nats://nats:4222'
 })
 
+console.log('NATS url',process.env.NATS_URL)
+
 nc.subscribe('todo_info', { queue: 'todo.broadcasters' }, (msg) => {
   const payload = JSON.parse(msg)
   const { title, status } = payload
