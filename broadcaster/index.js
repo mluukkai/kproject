@@ -30,9 +30,9 @@ console.log('Saver listening')
 
 const main = async () => {
   console.log('using', process.env.NATS_URL)
-  const nc = await NATS.connect({
-    url: process.env.NATS_URL
-  })
+  const nc = await NATS.connect(
+    { servers: process.env.NATS_URL}
+  )
   
   console.log(`connected to ${nc.getServer()}`);
 
